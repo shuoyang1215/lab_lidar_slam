@@ -63,7 +63,7 @@ rosbag record /livox/lidar /livox/imu
 roslaunch sfast_lio mapping_mid360.launch
 `
 <p align="center">
-  <img src="../image/avp-match.png" alt="系统架构图" width="650" />
+  <img src="./image/avp-match.png" alt="系统架构图" width="650" />
   <br>
   <sub>图 1：AVP_SLAM </sub>
 </p>
