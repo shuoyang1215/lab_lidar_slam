@@ -1,0 +1,123 @@
+use_glog: 1   # 是否将 GLOG 输出的调试信息，txt 文件以及调试过程的图片保存下来
+hard_ground: 1  # 是否假设运行过程 地面无泥泞 如果 有泥泞， 请置为 0
+fusion_mode: 1  # 0--只使用dr_odom与gps进行多传感器融合（最轻量）  1--融合vslam、dr_odom、GPS的融合  2---- 融合所有传感器
+
+eva_lio: true  # 是否在多传感器融合的评估节点进行lidar slam轨迹评估，如果当前数据集有lidar数据，请设为true
+eva_viw: false   # 是否在多传感器融合的评估节点进行vslam轨迹评估，defaut=false
+
+
+##  tag板出现在视野范围内的时间记录
+eva_times: 5  # 评估数据集中apriltag点位数量
+first_tag_time_list: [51, 129, 222, 314, 418]  # 第一次遇到 Apriltag 标定板的时刻 ,  如果 tag 板在评估过程一开始就有的话，请置为 0
+last_tag_time_list: [95, 170, 253, 336, 447]  # 最后遇到 Apriltag 标定板的时刻 ,  如果 想要评估的tag板位于轨迹的终点， 请置为 0
+
+
+###   相机与imu的外参设置  
+Cam2Imu_R: [   0,     0,    1,
+              -1,     0,    0,
+               0,    -1,    0 ]
+# Cam2Imu_T: [ -0.075,  0.0,  0.975 ]
+Cam2Imu_T: [ -0.114,  -0.02329,  0.97962 ]
+cam_param: camera_intrinsics.yaml
+
+
+## pose source
+dr_odo_topic: /pose_source/dr_odo # imu + 轮速计的高频位姿源
+vio_odo_topic: /vins_estimator/odometry     # 视觉里程计 viw 位姿源
+lio_odo_topic: /Odometry     # 激光里程计 lio_wheel 位姿源
+
+
+rtk_freq_detection: false  # 是否检测RTK存在频率问题
+rtk_freq_threshold: 0.5   # 相邻两帧RTK数据的最大时间间隔，超过此阈值认为RTK出现了丢数据现象
+
+set_log_save_path: false  # 是使用自定义的LOG日志保存路径（默认保存在 Global-Sensor-Fusion/ 目录下，保存文件夹为SLAM_LOG_fusion）
+log_save_path: /home/garry/Documents # 示例保存路径
+rtk_init_path: /config/rtk_init.txt
+output_pose_topic: /Location_pose
+location_state_topic: /Slam_Usb
+usb_sub_state_topic: /Usb_Slam
+
+
+
+### for test 发布当前参考地图点下的RTK原始 XYZ 读数结果, 方便可视化分析，格式 ：Float32MultiArray
+RTK_xyz_topic: /RTK_xyz
+
+### for test 多传感器融合最终输出的 nav_msgs/Odometry 格式的位姿，方便可视化和分析（RTK绝对坐标系下）
+output_pose_odometry_topic: /Location_pose_odometry
+
+
+
+### 触发相关
+use_trigger: false  # 是否使用开始定位的触发信号
+start_trigger_topic: /gpio_ss # 开始定位触发信号话题名称
+
+
+imu_T_wheel: [0, -1, 0, 0.0014,
+              1, 0, 0, -0.8164,
+              0, 0, 1, -0.491,
+              0, 0, 0, 1]
+
+rtk_T_wheel: [0, -1, 0, -0.0,
+              1, 0, 0, -0.802,
+              0, 0, 1, -0.491,
+              0, 0, 0, 1]
+
+# Topics  接受传感器消息话题名称
+lidar_topic: /zvision_lidar_points
+imuTopic: /Ser_imu
+cam_topic: /camera/rgb/image_raw # 数据集相机话题名称
+absolute_pose_topic: /GPS_fix   #  GPS 消息话题
+
+
+every_fuse_dist: 10  # 判定是否进行位姿融合的相邻节点阈值 default 30
+weight_dist: 100.0    # 距离在相邻节点积累过程的权值 default 100
+init_pose_num: 15   # 初始积累位姿的节点数目 default 15
+init_pose_dro: 5   # 初始dro积累位姿的节点数目 default 10
+
+window_size: 100
+
+p_factor: 1.0  # 用于平滑RTK信号切换的比例系数
+
+no_shadow_to_shadow: 3   # 非阴影->阴影过程切换缓冲区个数
+shadow_to_no_shadow: 1   # 阴影->非阴影切换缓冲区个数
+
+kf_trans_P: 0.1   # 轨迹融合观测的协方差初始值
+kf_trans_R: 0.1   # 状态噪声
+kf_trans_Q: 0.2   # 观测噪声
+
+###  因子图内部的噪声项
+rtk_noise: 0.01 # default 0.01
+binary_noise_imu: 0.01 # default 1.0
+binary_noise_rtk: 0.01 # default 1.0
+binary_noise_rtk_c: 1.0 # default 1.0
+unary_noise: 0.1 # default 100.0
+T_noise: 0.1 # default 0.001
+
+
+### for rviz  一些在使用rviz 可视化时用到的话题
+dr_odo_tf_topic: /pose_source/dr_odo/tf
+dr_odo_path_topic: /pose_source/dr_odo/path
+high_freq_pose_tf_topic: /high_freq_pose/tf
+high_freq_pose_path_topic: /high_freq_pose/path
+high_freq_pose_imu_path_topic: /high_freq_pose_imu/path
+fused_pose_tf_topic: /ENU_ref_cordinates/tf
+fused_pose_path_topic: /fused_pose/path
+gnss_pose_path_topic: /gnss_pose/path
+viw_pose_path_topic: /viw_pose/path
+fused_pose_cur_scan_topic: /fused_pose/cur_scan
+
+### for apriltag evaluation  程序的评估节点需要的话题名称
+high_freq_pose_topic: /high_freq_pose/msg
+fused_pose_topic: /fused_pose/msg
+
+
+### apriltag轨迹评估
+freq_fused: 20
+freq_viw: 5
+apriltag_size: 25
+td: 0.0  # initial value of time offset.
+
+length_topic: /total_length  # 总轨迹长度发布话题
+reset_topic: /reset_trigger  # 总轨迹长度发布话题
+viw_topic: /vins_estimator/odometry # 轨迹评估代码内部订阅的vslam位姿话题
+

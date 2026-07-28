@@ -1,0 +1,50 @@
+common:
+#RS LiDar
+    lid_topic:  "/livox/lidar"
+    imu_topic:  "/livox/imu"
+    time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
+    
+preprocess:
+    lidar_type: 4                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 4 RS
+    scan_line: 100
+    scan_rate: 10                # only need to be set for velodyne, unit: Hz,
+    blind: 0.5 #0.1
+
+mapping:
+    acc_cov: 0.1
+    gyr_cov: 0.1
+    b_acc_cov: 0.0001
+    b_gyr_cov: 0.0001
+    fov_degree:    180
+    det_range:     200.0
+    extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic,
+    init_method: 3 ## 1 for prior, 2 for ICP, 3 for rviz-2D pose estimate
+    
+    # init_pos: [0.3, 0.3, -0.0]
+    # init_rot: [0, 0, -0.087, 0.996]
+    # init_pos: [2.5, 2, 2]
+    init_pos: [0.0, 0.0, 0.0]
+
+    #init_rot: [0.412, 0.192, 0.412, 0.79] # 40
+    #init_rot: [0.509, 0.185, 0.509, 0.669] # 50
+    # init_rot: [0.592, 0.158, 0.592, 0.525]
+    # init_rot: [0.654, 0.115, 0.654, 0.361] # 70
+    init_rot: [0.0, 0.0, 0.0, 1]
+    # init_rot: [0.0, 0.0, -0.5, 0.866]   ### -60  ## for building2_mapping pcd localization
+    # init_rot: [0.0, 0.0, -0.432, 0.906]   ### -50  ## for ICP of building2_mapping pcd localization
+    # init_rot: [0.0, 0.0, -0.259, 0.966]   ### -30  ## for ICP of building2_mapping pcd localization
+    
+    extrinsic_T: [ -0.011, -0.02329, 0.04412 ]
+    extrinsic_R: [ 1, 0, 0,
+                   0, 1, 0,
+                   0, 0, 1]
+
+publish:
+    path_en:  true
+    scan_publish_en:  false       # false: close all the point cloud output
+    dense_publish_en: false       # false: low down the points number in a global-frame point clouds scan.
+    scan_bodyframe_pub_en: false  # true: output the point cloud scans in IMU-body-frame
+
+pcd_save:
+    pcd_save_en: false
+    interval: -1                 # how many LiDAR frames saved in each pcd file; 

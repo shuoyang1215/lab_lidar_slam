@@ -1,0 +1,17 @@
+<launch>
+    <!-- <node pkg="map_conversion" type="local_environment_node" name="local_environment" output="screen" /> -->
+    <node pkg="map_conversion" type="global_submap_node" name="global_submap" output="screen" />
+
+	<node pkg="map_server" type="map_saver" name="map_saver1" args="-f $(find map_conversion)/data/global_grid_map" output="screen">
+		<remap from="map" to="/grid_map_global" /> 		
+	</node>
+
+    <!-- Save path Parameter of grid map -->
+    <arg name="save_path" default="$(find map_conversion)/data/"/>
+    <param name="save_path" value="$(arg save_path)"/>
+
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizgrid" args="-d $(find map_conversion)/config/rviz_test.rviz" />
+    </group>
+</launch>

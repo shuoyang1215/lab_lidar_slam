@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!--- Sim Time -->
+  <!-- <param name="/use_sim_time" value="true"/> -->
+
+  <arg name="rviz" default="true"/>
+
+  <rosparam command="load" file="$(find objectcluster)/config/objseg_voxelgrid.yaml"/>
+
+  <node  name="objseg_gridclass" pkg="objectcluster" type="objseg_gridclass" output="screen">
+    <param name="AutoStatus" value="true" /> <!-- 是否接收/Usb_Ai topic来决定当前场景 -->
+    <param name="AutoDirection" value="false" /> <!-- 是否根据轮速计来判断当前运动方向，AutoStatus与AutoDirection二选一，或都不选 -->
+    <param name="isslope" value="false" />
+    <param name="UseLidar" value="true" />
+    <param name="UseDCamera" value="false" />
+    <param name="HighGrass" value="false" />
+    <param name="Grass" value="true" />
+    <param name="plane" value="false" />
+    <param name="log_path" value="/log/mlog.log" />
+    <param name="run_alone" type="bool" value="true"/>    
+  </node>
+
+  <group if = "$(arg rviz)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find objectcluster)/launch/ObjSeg2.rviz"/>
+  </group>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="camera_init_to_livox_frame"
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /camera_init /livox_frame 30" />		 -->
+
+</launch>

@@ -1,0 +1,27 @@
+%YAML:1.0
+
+Global_file_directory: "./"   #全局地图文件位置
+frame_id: "map"
+local_cloud_frame:  "/current_scan"     #局部雷达原始帧话题 (/laser_cloud_map)
+
+global_max_z: "1.5"       #这两个参数是调整全局栅格地图的Z轴直通滤波的范围，表示距离地面的高度
+global_min_z: "0.1"      
+current_max_z: "5"       #这两个参数是调整实时栅格地图的Z轴直通滤波的范围
+current_min_z: "0"
+
+2d_global_map_resolution: "0.1" #2d_global_map_resolution: "1"
+2d_current_map_resolution: "0.1"
+
+voxel_filter_size: [ 0.05, 0.05, 0.05] # x y z #对点云先进行体素滤波去除杂点后再进行2D栅格转换
+lidar_height: 0.17  # 雷达安装位置距离地面的高度（m）(>0)
+
+outlier_removal_method: 1  # 0:不去除 1:统计滤波 2:半径滤波
+mean_k: 30
+mul_thresh: 2.0
+search_radius: 0.2
+min_neighbors: 5      
+
+3d_x_size: 30.0
+3d_y_size: 30.0
+3d_z_size: 10.0
+

@@ -1,0 +1,44 @@
+<launch>
+<!-- Launch file for Livox AVIA LiDAR -->
+
+	<arg name="rviz" default="true" />
+	<arg name="grid_map" default="true" />
+	<arg name="obj_detect" default="true" />
+
+	<rosparam command="load" file="$(find sfast_lio)/config/mid360.yaml" />
+
+	<param name="feature_extract_enable" type="bool" value="0"/>
+	<!-- 100HZ的bag  point_filter_num建议设置为1;   10HZ的bag建议设置为2或3 -->
+	<param name="point_filter_num" type="int" value="3"/>  
+	<param name="map_mode" type="bool" value="0"/>                            
+	<param name="max_iteration" type="int" value="3" />
+	<param name="filter_size_surf" type="double" value="0.3" />
+	<param name="filter_size_map" type="double" value="0.3" />
+	<param name="cube_side_length" type="double" value="1000" />
+	<param name="map_filter_enable" type="bool" value="1" />
+	<!-- 室外3-5m 室内2-3m -->
+	<param name="map_filter_range" type="double" value="5.0" />
+    <node pkg="sfast_lio" type="fastlio_mapping_re" name="laserMapping_re" output="screen" /> 
+
+    <!-- 设置地图的配置文件 -->
+	<group if="$(arg grid_map)">
+		<node pkg="tf" type="static_transform_publisher" name="map_to_camera_init"
+		args="0.0 0.0 0.0 0.0 0.0 0.0 /map /camera_init 30" />
+
+		<arg name="map" default="$(find map_conversion)/data/global_grid_map.yaml" />
+		<!-- 运行地图服务器，并且加载设置的地图-->
+		<node name="map_server" pkg="map_server" type="map_server" args="$(arg map)"/>
+	</group>
+
+	<!-- 启动障碍物检测节点 -->
+    <group if="$(arg obj_detect)">
+        <include file="$(find objectcluster)/launch/ObjSegVoxelGrid_lidar_grass_locate.launch"/>
+		<!-- <node pkg="tf" type="static_transform_publisher" name="livox_frame_to_camera_init"
+			args="0.0 0.0 0.0 0.0 0.0 0.0 /livox_frame /camera_init 30" />		 -->
+    </group>
+
+	<group if="$(arg rviz)">
+	<node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizlocate" args="-d $(find sfast_lio)/rviz_cfg/obj_detect_relocalization.rviz" />
+	</group>
+
+</launch>

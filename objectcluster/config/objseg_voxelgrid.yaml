@@ -1,0 +1,83 @@
+objseg_gridclass:
+  BigHoleMaxY: 2
+  DCameraColSampleRate: 3
+  DCameraPitch: -0.35
+  DCameraRandSampleRate: 10
+  DCameraRowSampleRate: 2
+  DCameraXAxis: 1.5
+  DCameraYAxis: 3.5
+  DCameraZAxis: 1
+  DeepCameraHigh: 0.4
+  GridCloudWidth: 201 # 调整检测范围，检测范围= (-(GridCloudWidth-1）/2×GridSize,(GridCloudWidth-1）/2×GridSize)
+                      # (GridCloudWidth-1）/2×GridSize 不能超过lidarYAxis和lidarXAxis的最大值
+
+  GridSize: 0.2 # 调整栅格大小
+  LidarHigh: 0.4 # 雷达安装高度  ***
+  NearbyLidarfilter: 0.4 # ***
+  MaxPtPerGrid: 50 #单个栅格最大点云数量，减小可提速
+  MinCarDis: 0.1
+  NoDownSampleThr: 3*3
+  SkyPointHeight: 0.1
+  XAxisPlaneNum: 5
+  YAxisPlaneNum: 2
+  additional_grid: 1
+  camera_input_topic: /camera/depth/image_rect_raw
+  connect_distance: 14*14
+  dcamera2lidar_R:
+  - 1
+  - 0
+  - 0
+  - 0
+  - -1
+  - 0
+  - 0
+  - 0
+  - 1
+  dcamera2lidar_T:
+  - 0
+  - 0.97
+  - 0
+  dcx: 319.7656555175781
+  dcy: 242.99075317382812
+  dfx: 388.7212219238281
+  dfy: 388.7212219238281
+  elevation_thr: 0.1 #栅格绝对高度阈值  0.1
+  ground_filter_rate: 2
+  ground_height: -0.4 #***
+  input_Lidar: /livox/lidar
+  is_print_message_: false
+  kScaleFactor: 1000
+  lidarNearbyXAxis: 0.5   #过滤掉距离雷达过近的点云
+  lidarNearbyYAxis: 0.5 #过滤掉距离雷达过近的点云
+  lidarNearbyZAxis: 0.5 #过滤掉距离雷达过近的点云
+  lidarXAxis: 5 #雷达检测范围
+  lidarYAxis: 8 #雷达检测范围
+  minGridCloudNum: 5           #zuixiao  5
+  minOutlierarea: 0.15*0.15
+  min_hole_depth: 0.07
+  min_z_elevation: 0.19
+  mindistoslope: 0.05 #调大这个值到0.08可以减小因为通信导致斜坡边缘线和激光雷达点云时间戳不对齐导致的误检
+  minframeusecount: 3
+  noise_underground_thr: 0.05
+  num_iter: 3
+  num_lpr: 400
+  outlier_pc: 0.005
+  point_filter_rate: 1
+  relative_diff_thr: 0.05 #栅格相对高度阈值  0.05
+  sort_min_diff_high_to_track: 0.16
+  sort_min_disance_to_match: 1
+  sort_min_distance_to_track: 3
+  max_gridcount2track: 4*4
+  th_dist: 0.15
+  th_seeds: 0.1
+  total_score_thr: 1.2
+  uprightness_thr: 0.707
+  use_sort: false
+  CheckUpSlope: false
+  CheckDownSlope: false
+
+  #imu_parm
+  imu_topic: /livox/imu
+  gyro_noise: 1e-6
+  gyro_bias_noise: 1e-8
+  acc_noise: 1.0

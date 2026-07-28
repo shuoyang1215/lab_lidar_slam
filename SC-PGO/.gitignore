@@ -1,0 +1,15 @@
+PCD/*.txt
+PCD/*.pcd
+PCD/pcds_ori/*.pcd
+PCD/pcds/*.pcd
+PCD/*.csv
+PCD/outdoor
+PCD/pcds_ori_outdoor
+PCD/pcds_ori_parkinglot
+PCD/pcds_ori_ningde
+PCD/pcds_ori_fujian
+PCD/parkinglot
+PCD/corridor
+PCD/ningde
+PCD/fujian
+PCD/building2

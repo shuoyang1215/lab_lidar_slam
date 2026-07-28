@@ -1,0 +1,11 @@
+
+#ifndef GLOBAL_FUSION_GLOBAL_DEFINITION_H_IN_
+#define GLOBAL_FUSION_GLOBAL_DEFINITION_H_IN_
+
+#include <string>
+
+namespace eva_april {
+    const std::string WORK_SPACE_PATH = "@WORK_SPACE_PATH@";
+    const std::string MATCH_YAML_PATH = WORK_SPACE_PATH + "/config/config.yaml";
+}
+#endif

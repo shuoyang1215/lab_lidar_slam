@@ -1,0 +1,16 @@
+%YAML:1.0
+---
+model_type: KANNALA_BRANDT
+camera_name: camera
+image_width: 1920
+image_height: 1080
+
+projection_parameters:  #  oak-d-pro-w
+   k2: 0.243739 
+   k3: -0.99797051
+   k4: 2.5881228
+   k5: -2.35428769
+   mu: 1148.21368606
+   mv: 1148.52808443
+   u0: 961.82241023
+   v0: 533.46286502

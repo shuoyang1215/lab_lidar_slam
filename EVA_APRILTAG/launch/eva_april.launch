@@ -1,0 +1,16 @@
+<launch>
+    <!--- Sim Time -->
+    <param name="/use_sim_time" value="false"/>
+    <!--- TF -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0         /map /odom  10"/>
+
+    <!-- AprilTag Evaluation -->
+    <node pkg="eva_april" type="evaluation_node" name="evaluation_node" output="log">
+        <param name="screen" type="bool" value="false"/>
+    </node>
+
+	<node pkg="image_transport" type="republish" name="republish" args="compressed in:=/rgb_stereo_publisher/color/image raw out:=/camera/rgb/image_raw" output="screen" respawn="true"/>
+
+
+
+</launch>
